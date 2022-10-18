@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private Context context;
     private ArrayList trip_id, trip_title, trip_destination,trip_description, trip_dot, trip_require;
-
 
     public CustomAdapter(Context context, ArrayList trip_id, ArrayList trip_title,
                          ArrayList trip_destination,ArrayList trip_description,
@@ -31,6 +29,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.trip_require = trip_require;
         this.trip_description = trip_description;
     }
+
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

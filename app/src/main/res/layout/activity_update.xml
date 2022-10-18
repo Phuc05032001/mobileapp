@@ -148,8 +148,7 @@
             android:id="@+id/radioButtonYes2"
             android:layout_width="219dp"
             android:layout_height="match_parent"
-            android:text="Yes"
-            android:checked="true"/>
+            android:text="Yes" />
 
         <RadioButton
             android:id="@+id/radioButtonNo2"

@@ -47,25 +47,26 @@ public class MyDatabase extends SQLiteOpenHelper {
                         COLUMN_DESTINATION + " TEXT, " +
                         COLUMN_DESCRIPTION + " TEXT, " +
                         COLUMN_REQUIRE_ASSESSMENT + " TEXT, " +
-                        COLUMN_DATE_OF_THE_TRIP + " TEXT);"
-                ;
+                        COLUMN_DATE_OF_THE_TRIP + " TEXT);";
+
         db.execSQL(query);
-
-        String query2 = "CREATE TABLE " + TABLE_NAME_EXPENSES +
-                        " (" + COLUMN_ID2 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_TYPE + "TEXT, " +
-                        COLUMN_AMOUNT + "TEXT, " +
-                        COLUMN_TIME_OF_EXPENSE + "TEXT, " +
-                        COLUMN_FOREIGN_KEY_TRIP_ID + "INTEGER, " +
-                        " FOREIGN KEY ("+COLUMN_FOREIGN_KEY_TRIP_ID+") REFERENCES "+TABLE_NAME+"("+COLUMN_ID+"));";
-
-        db.execSQL(query2);
+//        String query2 = "CREATE TABLE " + TABLE_NAME_EXPENSES +
+//                        " (" + COLUMN_ID2 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                        COLUMN_TYPE + "TEXT, " +
+//                        COLUMN_AMOUNT + "TEXT, " +
+//                        COLUMN_TIME_OF_EXPENSE + "TEXT, " +
+//                        COLUMN_FOREIGN_KEY_TRIP_ID + "INTEGER, " +
+//                        " FOREIGN KEY (" + COLUMN_FOREIGN_KEY_TRIP_ID + ") REFERENCES " + TABLE_NAME + "(" + COLUMN_ID + ")" +
+//                        ");";
+//
+//        db.execSQL(query2);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME );
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_EXPENSES );
         onCreate(db);
     }
 
@@ -86,6 +87,22 @@ public class MyDatabase extends SQLiteOpenHelper {
         }
     }
 
+    public void addExpense(@NonNull String type,@NonNull String amount,@NonNull String toe,@NonNull Integer ex_trip_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_TYPE, type);
+        cv.put(COLUMN_AMOUNT, amount);
+        cv.put(COLUMN_TIME_OF_EXPENSE, toe);
+        cv.put(COLUMN_FOREIGN_KEY_TRIP_ID, ex_trip_id);
+        long result = db.insert(TABLE_NAME_EXPENSES, null, cv);
+        if(result == -1){
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Add Successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public Cursor readAllData(){
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -97,17 +114,23 @@ public class MyDatabase extends SQLiteOpenHelper {
         return  cursor;
     }
 
-//    public readExpenses(String ex_trip_id) {
-//        super();
-//        SQLiteDatabase db = getReadableDatabase();
-//        String query = COLUMN_FOREIGN_KEY_TRIP_ID + " =?";
-//        String[] whereArgs = {ex_trip_id};
-//        Cursor cursor2 = db.query("TABLE_NAME_EXPENSES" , whereArgs, query, null);
-//        if (cursor2 != null) {
-//            cursor2.moveToFirst();
-//        }
-//        return cursor2;
-//    }
+    public Cursor readAllData2( String searchData){
+        String query = "SELECT * FROM " + TABLE_NAME;
+        query = "Select * from "  + TABLE_NAME +" WHERE "+COLUMN_TITLE+" LIKE '%"+searchData+"%'"
+                        + " OR " +  COLUMN_DESTINATION+" LIKE '%"+searchData+"%'"+
+                        " OR " +  COLUMN_DATE_OF_THE_TRIP+" LIKE '%"+searchData+"%'"+
+                        " OR " +  COLUMN_REQUIRE_ASSESSMENT+" LIKE '%"+searchData+"%'"+
+                        " OR " +  COLUMN_DESCRIPTION+" LIKE '%"+searchData+"%'"+" " +
+                        "OR " + COLUMN_ID+" LIKE '%"+searchData+"%'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if( db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return  cursor;
+    }
+
 
     public void updateData(String row_id, String trip_title, String destination, String description, String dot, String require) {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     MyDatabase myDB;
     ArrayList<String> trip_id, trip_title, trip_destination, trip_require, trip_dot, trip_description;
     CustomAdapter customAdapter;
-    Button search_button;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

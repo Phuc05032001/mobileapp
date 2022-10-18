@@ -96,9 +96,10 @@ public class UpdateActivity extends AppCompatActivity {
         });
 
         repenses_button.setOnClickListener((view)->{
-//            readExpenses(id);
-
-            startActivity(new Intent(UpdateActivity.this, Expenses.class));
+            Intent intent = new Intent(this,Expenses.class);
+            intent.putExtra("ex_trip_Id",id);
+            intent.putExtra("trip_title",title);
+            startActivity(intent);
         });
 
     }
@@ -115,7 +116,7 @@ public class UpdateActivity extends AppCompatActivity {
             title = getIntent().getStringExtra("title");
             destination = getIntent().getStringExtra("destination");
             dot = getIntent().getStringExtra("dot");
-//            require = getIntent().getStringExtra("require");
+            require = getIntent().getStringExtra("require");
             description = getIntent().getStringExtra("description");
 
             //setting intent data
@@ -123,10 +124,12 @@ public class UpdateActivity extends AppCompatActivity {
             destination_input.setText(destination);
             dot_input.setText(dot);
             description_input.setText(description);
-//            require_radioButton.setOnKeyListener(require);
-
-        }else{
-            Toast.makeText(this, "Nod data", Toast.LENGTH_SHORT).show();
+            if(require.equals("Yes")){
+                require_radioButton = findViewById(R.id.radioButtonYes2);
+            }else{
+                require_radioButton = findViewById(R.id.radioButtonNo2);
+            }
+            require_radioButton.setChecked(true);
         }
     }
 
