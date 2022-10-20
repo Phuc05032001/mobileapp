@@ -1,8 +1,11 @@
 package com.example.mytour;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +18,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     private ArrayList ex_id,ex_type,ex_amount,ex_toe,ex_trip_id;
 
     public ExpenseAdapter(Context context, ArrayList ex_id, ArrayList ex_type,
-                         ArrayList ex_amount, ArrayList ex_toe,
-                         ArrayList ex_trip_id){
+                         ArrayList ex_amount, ArrayList ex_toe, ArrayList ex_trip_id){
         this.context = context;
         this.ex_id = ex_id;
         this.ex_type = ex_type;
@@ -28,7 +30,9 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
     @NonNull
     @Override
     public ExpenseAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.row_expenses, parent, false);
+        return new ExpenseAdapter.MyViewHolder(view);
     }
 
     @Override
@@ -38,13 +42,24 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return ex_id.size();
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout expensesLayout;
+        TextView ex_type_txt, ex_toe_txt, ex_amount_txt, ex_id_txt;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            ex_type_txt = itemView.findViewById(R.id.ex_type_txt);
+            ex_toe_txt = itemView.findViewById(R.id.ex_toe_txt);
+            ex_id_txt = itemView.findViewById(R.id.ex_id_txt);
+            ex_amount_txt = itemView.findViewById(R.id.ex_amount_txt);
+
+
+
+            expensesLayout = itemView.findViewById(R.id.expensesLayout);
+
         }
     }
 }

@@ -24,6 +24,7 @@ public class Expenses extends AppCompatActivity {
     ExpenseAdapter customAdapterEx;
     TextView trip_Id, trip_Title;
     String tripId, tripTitle;
+    String ex_trip_Id_from_addEx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,13 @@ public class Expenses extends AppCompatActivity {
             trip_Title.setText(tripTitle);
         }
 
+        if(getIntent().hasExtra("ex_trip_Id_from_addEx")){
+            // get data from Intent
+            ex_trip_Id_from_addEx = getIntent().getStringExtra("ex_trip_Id");
+
+        }
+
+
         recyclerViewExpenses = findViewById(R.id.recyclerViewExpenses);
         add_button_expense = findViewById(R.id.add_button_expense);
         add_button_expense.setOnClickListener(view ->{
@@ -62,13 +70,14 @@ public class Expenses extends AppCompatActivity {
 
         storeDataInArrays();
 
-        customAdapterEx = new ExpenseAdapter(Expenses.this, ex_id, ex_type, ex_amount,ex_toe, ex_trip_id);
+        customAdapterEx = new ExpenseAdapter(Expenses.this, ex_id, ex_type, ex_amount,ex_toe,ex_trip_id);
         recyclerViewExpenses.setAdapter(customAdapterEx);
         recyclerViewExpenses.setLayoutManager(new LinearLayoutManager(Expenses.this));
     }
 
     void storeDataInArrays() {
-        Cursor cursor = myDB.readAllData();
+        Integer trip_id = Integer.parseInt(tripId);
+        Cursor cursor = myDB.readAllDataEx(trip_id);
         if(cursor.getCount() == 0){
             Toast.makeText(Expenses.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
@@ -77,7 +86,6 @@ public class Expenses extends AppCompatActivity {
                 ex_type.add(cursor.getString(1));
                 ex_amount.add(cursor.getString(2));
                 ex_toe.add(cursor.getString(3));
-                ex_trip_id.add(cursor.getString(4));
 
             }
         }

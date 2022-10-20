@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,7 @@ import androidx.annotation.Nullable;
 public class MyDatabase extends SQLiteOpenHelper {
 
     private Context context;
-    private  static  final  String DATABASE_NAME = "TripAssistant2.db";
+    private  static  final  String DATABASE_NAME = "TripAssistant.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "my_trips";
@@ -48,18 +49,22 @@ public class MyDatabase extends SQLiteOpenHelper {
                         COLUMN_DESCRIPTION + " TEXT, " +
                         COLUMN_REQUIRE_ASSESSMENT + " TEXT, " +
                         COLUMN_DATE_OF_THE_TRIP + " TEXT);";
-
         db.execSQL(query);
-//        String query2 = "CREATE TABLE " + TABLE_NAME_EXPENSES +
-//                        " (" + COLUMN_ID2 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                        COLUMN_TYPE + "TEXT, " +
-//                        COLUMN_AMOUNT + "TEXT, " +
-//                        COLUMN_TIME_OF_EXPENSE + "TEXT, " +
-//                        COLUMN_FOREIGN_KEY_TRIP_ID + "INTEGER, " +
-//                        " FOREIGN KEY (" + COLUMN_FOREIGN_KEY_TRIP_ID + ") REFERENCES " + TABLE_NAME + "(" + COLUMN_ID + ")" +
-//                        ");";
-//
-//        db.execSQL(query2);
+
+
+
+        String query2 = "CREATE TABLE " + TABLE_NAME_EXPENSES +
+                        " (" + COLUMN_ID2 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_TYPE + " TEXT, " +
+                        COLUMN_AMOUNT + " TEXT, " +
+                        COLUMN_TIME_OF_EXPENSE + " TEXT, " +
+                        COLUMN_FOREIGN_KEY_TRIP_ID + " INTEGER, " +
+                        " FOREIGN KEY(" + COLUMN_FOREIGN_KEY_TRIP_ID + ") REFERENCES " + TABLE_NAME + "(" + COLUMN_ID + ")" +
+                        ");";
+        Log.i("quert", query2);
+
+        //String query2 = "CREATE TABLE my_expenses ( ex_id INTEGER PRIMARY KEY AUTOINCREMENT, ex_type TEXT, ex_amount TEXT, ex_time_of_expense TEXT, trip_id INTEGER, FOREIGN KEY (trip_id) REFERENCES my_trips(_id)); ";
+        db.execSQL(query2);
 
     }
 
@@ -90,7 +95,6 @@ public class MyDatabase extends SQLiteOpenHelper {
     public void addExpense(@NonNull String type,@NonNull String amount,@NonNull String toe,@NonNull Integer ex_trip_id){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
         cv.put(COLUMN_TYPE, type);
         cv.put(COLUMN_AMOUNT, amount);
         cv.put(COLUMN_TIME_OF_EXPENSE, toe);
@@ -114,9 +118,20 @@ public class MyDatabase extends SQLiteOpenHelper {
         return  cursor;
     }
 
-    public Cursor readAllData2( String searchData){
-        String query = "SELECT * FROM " + TABLE_NAME;
-        query = "Select * from "  + TABLE_NAME +" WHERE "+COLUMN_TITLE+" LIKE '%"+searchData+"%'"
+    public Cursor readAllDataEx(Integer trip_id_ex){
+
+        String query = "Select * from "  + TABLE_NAME_EXPENSES +" WHERE "+COLUMN_FOREIGN_KEY_TRIP_ID+" LIKE '%"+trip_id_ex+"%'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if( db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return  cursor;
+    }
+
+    public Cursor readSearchData( String searchData){
+         String query = "Select * from "  + TABLE_NAME +" WHERE "+COLUMN_TITLE+" LIKE '%"+searchData+"%'"
                         + " OR " +  COLUMN_DESTINATION+" LIKE '%"+searchData+"%'"+
                         " OR " +  COLUMN_DATE_OF_THE_TRIP+" LIKE '%"+searchData+"%'"+
                         " OR " +  COLUMN_REQUIRE_ASSESSMENT+" LIKE '%"+searchData+"%'"+

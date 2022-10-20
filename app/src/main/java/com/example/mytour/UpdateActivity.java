@@ -47,6 +47,7 @@ public class UpdateActivity extends AppCompatActivity {
             public void onClick(View v) {
             }
         });
+
         getAndSetIntentData();
 
         //Set actionbar

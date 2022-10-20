@@ -24,7 +24,7 @@ public class AddExpense extends AppCompatActivity {
     EditText AmountInput, ToeInput;
     Button AddExpense;
     Integer ex_trip_Id;
-
+    MyDatabase myDB;
 
 
     private final String[] typeExpenseArray = {
@@ -73,11 +73,14 @@ public class AddExpense extends AppCompatActivity {
 
             if (check) {
 
-                MyDatabase myDB = new MyDatabase(AddExpense.this);
+                myDB = new MyDatabase(AddExpense.this);
                 myDB.addExpense(Type, Amount,Toe, ex_trip_Id);
 
                 displayNextAlert(Type,Amount,Toe, ex_trip_Id);
 //                startActivity(new Intent(AddExpense.this, Expenses.class));
+                Intent intent = new Intent(this,Expenses.class);
+                intent.putExtra("ex_trip_Id_from_addEx",ex_trip_Id);
+                startActivity(intent);
             }
             else {
                 Toast.makeText(getApplicationContext(), "check information again", Toast.LENGTH_SHORT).show();

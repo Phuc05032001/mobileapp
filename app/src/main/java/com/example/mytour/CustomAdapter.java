@@ -78,8 +78,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             trip_id_txt = itemView.findViewById(R.id.trip_id_txt);
-            trip_title_txt = itemView.findViewById(R.id.trip_title_txt);
-            trip_destination_txt = itemView.findViewById(R.id.trip_destination_txt);
+            trip_title_txt = itemView.findViewById(R.id.ex_type_txt);
+            trip_destination_txt = itemView.findViewById(R.id.ex_toe_txt);
             trip_description_txt = itemView.findViewById(R.id.trip_description_txt);
             trip_dot_txt = itemView.findViewById(R.id.trip_dot_txt);
             trip_require_txt = itemView.findViewById(R.id.trip_require_txt);

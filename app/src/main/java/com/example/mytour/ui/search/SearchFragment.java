@@ -88,7 +88,7 @@ public class SearchFragment extends Fragment {
 ////                        " OR " +  COLUMN_DESCRIPTION+" LIKE '%"+searchData+"%'"+" " +
 ////                        "OR " + COLUMN_ID+" LIKE '%"+searchData+"%'";
 //            }
-            Cursor cursor = myDB.readAllData2(searchData);
+            Cursor cursor = myDB.readSearchData(searchData);
            // Cursor cursor = db.rawQuery(query, null);
             if (cursor.getCount() == 0){
                 Toast.makeText(getActivity().getApplication(), "Search not found???", Toast.LENGTH_SHORT).show();
@@ -112,9 +112,9 @@ public class SearchFragment extends Fragment {
                     trip_id.add(cursor.getString(0));
                     trip_title.add(cursor.getString(1));
                     trip_destination.add(cursor.getString(2));
-                    trip_dot.add(cursor.getString(3));
+                    trip_description.add(cursor.getString(3));
                     trip_require.add(cursor.getString(4));
-                    trip_description.add(cursor.getString(5));
+                    trip_dot.add(cursor.getString(5));
 
                     Toast.makeText(getActivity().getApplication(), "Search ok", Toast.LENGTH_SHORT).show();
                 }
