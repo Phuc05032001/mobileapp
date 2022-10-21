@@ -61,9 +61,8 @@ public class MyDatabase extends SQLiteOpenHelper {
                         COLUMN_FOREIGN_KEY_TRIP_ID + " INTEGER, " +
                         " FOREIGN KEY(" + COLUMN_FOREIGN_KEY_TRIP_ID + ") REFERENCES " + TABLE_NAME + "(" + COLUMN_ID + ")" +
                         ");";
-        Log.i("quert", query2);
+//        Log.i("quert", query2);
 
-        //String query2 = "CREATE TABLE my_expenses ( ex_id INTEGER PRIMARY KEY AUTOINCREMENT, ex_type TEXT, ex_amount TEXT, ex_time_of_expense TEXT, trip_id INTEGER, FOREIGN KEY (trip_id) REFERENCES my_trips(_id)); ";
         db.execSQL(query2);
 
     }
@@ -168,6 +167,16 @@ public class MyDatabase extends SQLiteOpenHelper {
     void deleteOneRow(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME, "_id=?", new String[]{row_id});
+        if(result == -1){
+            Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void deleteOneRowEx(String ex_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME_EXPENSES, "ex_id=?", new String[]{ex_id});
         if(result == -1){
             Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
         }else{

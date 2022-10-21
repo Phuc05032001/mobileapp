@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         recyclerView = binding.recyclerView;
-
         add_button = binding.addButton;
         add_button.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), AddActivity.class);

@@ -23,7 +23,7 @@ public class AddExpense extends AppCompatActivity {
 
     EditText AmountInput, ToeInput;
     Button AddExpense;
-    Integer ex_trip_Id;
+    String tripId, tripTitle;
     MyDatabase myDB;
 
 
@@ -41,12 +41,12 @@ public class AddExpense extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
 
-        if(getIntent().hasExtra("ex_trip_Id")){
+        if(getIntent().hasExtra("ex_trip_Id")
+                && getIntent().hasExtra("trip_title")){
             // get data from Intent
-            String ex_trip_Id_string = getIntent().getStringExtra("ex_trip_Id");
-            ex_trip_Id = Integer.parseInt(ex_trip_Id_string);
+            tripId = getIntent().getStringExtra("ex_trip_Id");
+            tripTitle = getIntent().getStringExtra("trip_title");
         }
-
 
         AmountInput = findViewById(R.id.inputName);
 
@@ -63,24 +63,20 @@ public class AddExpense extends AppCompatActivity {
             String Type = spinnerTypeExpense.getSelectedItem().toString();
             String Amount = AmountInput.getText().toString().trim();
             String Toe = ToeInput.getText().toString().trim();
-
+            Integer ex_trip_id = Integer.parseInt(tripId);
 
             boolean check = CheckAllFields(Amount,Toe);
 
-
-            // the boolean variable turns to be true then
-            // only the user must be proceed to the activity
-
             if (check) {
-
                 myDB = new MyDatabase(AddExpense.this);
-                myDB.addExpense(Type, Amount,Toe, ex_trip_Id);
+                myDB.addExpense(Type, Amount,Toe, ex_trip_id);
+//                displayNextAlert(Type,Amount,Toe, ex_trip_id);
 
-                displayNextAlert(Type,Amount,Toe, ex_trip_Id);
-//                startActivity(new Intent(AddExpense.this, Expenses.class));
                 Intent intent = new Intent(this,Expenses.class);
-                intent.putExtra("ex_trip_Id_from_addEx",ex_trip_Id);
+                intent.putExtra("ex_trip_Id",tripId);
+                intent.putExtra("trip_title",tripTitle);
                 startActivity(intent);
+
             }
             else {
                 Toast.makeText(getApplicationContext(), "check information again", Toast.LENGTH_SHORT).show();
@@ -96,8 +92,7 @@ public class AddExpense extends AppCompatActivity {
         TextView dotText = (TextView) findViewById(R.id.inputDot);
         dotText.setText(dot.toString());
     }
-    // function which checks all the text fields
-    private boolean CheckAllFields(String amount, String toe) {
+    private boolean CheckAllFields(@NonNull String amount, String toe) {
         if (amount.length() == 0) {
             AmountInput.requestFocus();
             AmountInput.setError("FILL CANNOT BE EMPTY");
@@ -108,15 +103,9 @@ public class AddExpense extends AppCompatActivity {
             ToeInput.setError("FILL CANNOT BE EMPTY");
             return false;
         }
-//        if(!toe.matches("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")){
-//            ToeInput.requestFocus();
-//            ToeInput.setError("Not correct format data input year-month-day");
-//            return false;
-//        }
         else {
             return true;}
     }
-
     private void displayNextAlert(String Type, String Amount, String Toe, Integer Trip_id){
         new AlertDialog.Builder(this).setTitle("Details entered").setMessage("Details entered: " +
                 "\n" +
@@ -130,6 +119,5 @@ public class AddExpense extends AppCompatActivity {
 
             }
         }).show();
-    }
-
+  }
 }
