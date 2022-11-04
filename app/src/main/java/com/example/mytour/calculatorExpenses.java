@@ -14,23 +14,17 @@ import com.anychart.charts.Pie;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class calculatorExpenses extends AppCompatActivity {
-
     Integer sumCostsIncurred, sumTransport,sumFood,sumTravel, total;
     String tripId;
     TextView textView;
     AnyChartView anyChartView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator_expenses);
-
         anyChartView = findViewById(R.id.anyChartView);
         textView = findViewById(R.id.sumEx);
-
 
         if(getIntent().hasExtra("sumFood")
                 && getIntent().hasExtra("sumTravel")
@@ -46,24 +40,13 @@ public class calculatorExpenses extends AppCompatActivity {
             sumFood = getIntent().getIntExtra("sumFood", 0);
             sumTransport = getIntent().getIntExtra("sumTransport", 0);
             sumCostsIncurred = getIntent().getIntExtra("sumCostsIncurred", 0);
-
-            String convertTotalToString = "Total: " + String.valueOf(total) + " VND";
-
-            textView.setText(convertTotalToString);
-
-            Toast.makeText(calculatorExpenses.this,
-                    "TripId = " + tripId
-                    + "Total Trip = " + total
-                    + " sumFood = " + sumFood
-                    + " sumTravel = " + sumTravel
-                    + " sumCostsIncurred = " + sumCostsIncurred
-                    + " sumTransport = "+ sumTransport , Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(calculatorExpenses.this, "No data", Toast.LENGTH_SHORT).show();
         }
+        String convertTotalToString = "Total: " + String.valueOf(total) + " VND";
+        textView.setText(convertTotalToString);
 
         setupChartView();
-
     }
 
     private void setupChartView() {
@@ -76,7 +59,6 @@ public class calculatorExpenses extends AppCompatActivity {
         dataEntries.add(new ValueDataEntry("Costs Incurred", sumCostsIncurred));
 
         pie.data(dataEntries);
-//        pie.title("Spending Analysis");
         anyChartView.setChart(pie);
 
     }

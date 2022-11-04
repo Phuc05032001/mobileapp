@@ -121,6 +121,7 @@ public class Expenses extends AppCompatActivity {
             intent.putExtra("ex_trip_Id",tripId);
             startActivity(intent);
 
+            total = 0;
         });
 
         add_button_expense.setOnClickListener(view ->{
