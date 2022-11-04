@@ -27,6 +27,7 @@ public class AddActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButton;
     Button  saveButton;
+    final String regexCheckData = "^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +106,7 @@ public class AddActivity extends AppCompatActivity {
             dotInput.setError("FILL CANNOT BE EMPTY");
             return false;
         }
-        if(!dot.matches("^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$")){
+        if(!dot.matches(regexCheckData)){
             dotInput.requestFocus();
             dotInput.setError("Not correct format data input year-month-day");
             return false;

@@ -76,18 +76,7 @@ public class SearchFragment extends Fragment {
         SearchBtn.setOnClickListener(view -> {
             SQLiteDatabase db = getContext().openOrCreateDatabase(TABLE_NAME, Context.MODE_PRIVATE, null);
             searchData = SearchInput.getText().toString().trim();
-            String query;
-//            if(searchData.isEmpty()){
-                query = "Select * from "  + TABLE_NAME;
-               // Toast.makeText(getActivity().getApplication(), "search", Toast.LENGTH_SHORT).show();
-//            }else{
-//                query = "Select * from "  + TABLE_NAME +" WHERE "+COLUMN_TITLE+" LIKE '%"+searchData+"%'";
-////                        + " OR " +  COLUMN_DESTINATION+" LIKE '%"+searchData+"%'"+
-////                        " OR " +  COLUMN_DATE_OF_THE_TRIP+" LIKE '%"+searchData+"%'"+
-////                        " OR " +  COLUMN_REQUIRE_ASSESSMENT+" LIKE '%"+searchData+"%'"+
-////                        " OR " +  COLUMN_DESCRIPTION+" LIKE '%"+searchData+"%'"+" " +
-////                        "OR " + COLUMN_ID+" LIKE '%"+searchData+"%'";
-//            }
+
             Cursor cursor = myDB.readSearchData(searchData);
            // Cursor cursor = db.rawQuery(query, null);
             if (cursor.getCount() == 0){
@@ -135,7 +124,7 @@ public class SearchFragment extends Fragment {
     void storeDataInArrays() {
         Cursor cursor = myDB.readAllData();
         if(cursor.getCount() == 0){
-            Toast.makeText(getActivity().getApplication(), "No data", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity().getApplication(), "No data", Toast.LENGTH_SHORT).show();
         }else{
             while(cursor.moveToNext()){
                 trip_id.add(cursor.getString(0));

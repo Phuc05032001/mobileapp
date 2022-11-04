@@ -51,17 +51,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.delete_all){
-            Toast.makeText(this,"deleted", Toast.LENGTH_SHORT).show();
-            MyDatabase myDB = new MyDatabase(this);
-            myDB.deleteAllData();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if(item.getItemId() == R.id.delete_all){
+//            Toast.makeText(this,"deleted", Toast.LENGTH_SHORT).show();
+//            MyDatabase myDB = new MyDatabase(this);
+//            myDB.deleteAllData();
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }

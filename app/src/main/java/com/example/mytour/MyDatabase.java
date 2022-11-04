@@ -2,6 +2,7 @@ package com.example.mytour;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.mytour.ui.home.HomeFragment;
 
 public class MyDatabase extends SQLiteOpenHelper {
 
@@ -129,6 +132,20 @@ public class MyDatabase extends SQLiteOpenHelper {
         return  cursor;
     }
 
+    public Cursor sumType(Integer trip_id_ex, String type){
+
+        String query = "Select * from "  + TABLE_NAME_EXPENSES +" WHERE "+COLUMN_FOREIGN_KEY_TRIP_ID+" LIKE '%"+trip_id_ex+"%'"
+                        + "AND " +COLUMN_TYPE+ " LIKE '%"+type+"%'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursorType = null;
+        if( db != null){
+            cursorType = db.rawQuery(query, null);
+        }
+
+        return  cursorType;
+    }
+
     public Cursor readSearchData( String searchData){
          String query = "Select * from "  + TABLE_NAME +" WHERE "+COLUMN_TITLE+" LIKE '%"+searchData+"%'"
                         + " OR " +  COLUMN_DESTINATION+" LIKE '%"+searchData+"%'"+
@@ -184,10 +201,11 @@ public class MyDatabase extends SQLiteOpenHelper {
         }
     }
 
-    void deleteAllData(){
+    public void deleteAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Toast.makeText(context, "Delete Successfully.", Toast.LENGTH_SHORT).show();
         db.execSQL("DELETE FROM " + TABLE_NAME);
+
     }
 
 }

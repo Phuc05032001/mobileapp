@@ -6,13 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.upload.UploadFragment">
 
+    <EditText
+        android:id="@+id/inputBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
-        android:id="@+id/button"
-        android:layout_width="205dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="340dp"
-        android:text="UPLOAD TO CLOUD"
+        android:id="@+id/searchBrowser"
+        android:layout_width="398dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="8dp"
+        android:text="Search"
+        app:icon="@drawable/ic_baseline_search_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/inputBrowser" />
+
+    <Button
+        android:id="@+id/upload_btn"
+        android:layout_width="391dp"
+        android:layout_height="52dp"
+        android:text="UPLOAD TO CLOUD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBrowser" />
 </androidx.constraintlayout.widget.ConstraintLayout>

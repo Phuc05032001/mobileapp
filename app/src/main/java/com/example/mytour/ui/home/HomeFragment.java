@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytour.AddActivity;
 import com.example.mytour.CustomAdapter;
+import com.example.mytour.MainActivity;
 import com.example.mytour.MyDatabase;
 import com.example.mytour.R;
 import com.example.mytour.databinding.FragmentHomeBinding;
@@ -30,10 +31,12 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     RecyclerView recyclerView;
-    FloatingActionButton add_button;
+    FloatingActionButton add_button,delete_all;
     MyDatabase myDB;
     ArrayList<String> trip_id, trip_title, trip_destination, trip_require, trip_dot, trip_description;
     CustomAdapter customAdapter;
+
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,6 +49,14 @@ public class HomeFragment extends Fragment {
         add_button = binding.addButton;
         add_button.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), AddActivity.class);
+            startActivity(intent);
+        });
+
+        delete_all = binding.deleteAll;
+        delete_all.setOnClickListener(v -> {
+            MyDatabase myDB = new MyDatabase(getActivity().getApplication());
+            myDB.deleteAllData();
+            Intent intent = new Intent(getActivity().getApplication(), MainActivity.class);
             startActivity(intent);
         });
 
@@ -69,7 +80,7 @@ public class HomeFragment extends Fragment {
     void storeDataInArrays() {
         Cursor cursor = myDB.readAllData();
         if(cursor.getCount() == 0){
-            Toast.makeText(getActivity().getApplication(), "No data", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity().getApplication(), "No data", Toast.LENGTH_SHORT).show();
         }else{
             while(cursor.moveToNext()){
                 trip_id.add(cursor.getString(0));
